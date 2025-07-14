@@ -43,7 +43,7 @@ export default function DashboardPage() {
   const navigate = useNavigate();
 
   // State for UI elements
-  const [isSidenavOpen, setIsSidenavOpen] = useState(false); 
+  const [isSidenavOpen, setIsSidenavOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isNotificationsDropdownOpen, setIsNotificationsDropdownOpen] =
     useState(false);
@@ -69,14 +69,13 @@ export default function DashboardPage() {
     }));
   };
 
-  // Effect for Counter Animation
   useEffect(() => {
     const counters = document.querySelectorAll(".counter");
     counters.forEach((counter) => {
-      const target = parseInt(counter.textContent.replace(/[^0-9.-]/g, "")); // Handle $ and other chars
+      const target = parseInt(counter.textContent.replace(/[^0-9.-]/g, ""));
       let current = 0;
-      const duration = 4000; // milliseconds
-      const increment = target / (duration / 10); // Update every 10ms
+      const duration = 4000; 
+      const increment = target / (duration / 10); 
 
       const updateCounter = () => {
         if (current < target) {
@@ -84,16 +83,34 @@ export default function DashboardPage() {
           counter.textContent = Math.ceil(current);
           requestAnimationFrame(updateCounter);
         } else {
-          counter.textContent = target; // Ensure it ends on the exact target
+          counter.textContent = target; 
         }
       };
       updateCounter();
     });
-  }, []); // Run once on mount
+  }, []);
 
-  // Effect for ApexCharts rendering
+  // use effect for Prevent back button
   useEffect(() => {
-    // Resource Usage Pie Chart (Radar Chart in original)
+    window.history.pushState(null, "", window.location.href);
+    const handlePopState = () => {
+      window.history.pushState(null, "", window.location.href);
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
+
+  // use effect for Auth check
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+  }, []);
+
+  useEffect(() => {
     const pieChartOptions = {
       series: [
         {
@@ -411,8 +428,9 @@ export default function DashboardPage() {
                           className="flex items-center px-4 py-2 hover:bg-[#013357] hover:text-white transition-colors duration-200"
                           href="#"
                           onClick={(e) => {
-                            e.preventDefault(); // prevent default anchor reload
-                            navigate("/login");
+                            e.preventDefault();
+                            localStorage.removeItem("token"); // 🔐 Remove token on logout
+                            navigate("/login"); // 🔁 Redirect to login page
                           }}
                         >
                           <FaSignOutAlt className="mr-3 text-base" />
