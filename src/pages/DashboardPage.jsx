@@ -1,11 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import ApexCharts from "apexcharts";
 import {
-  FaFacebookF,
-  FaLinkedinIn,
-  FaTwitter,
-  FaYoutube,
-  FaInstagram,
   FaUsers,
   FaShieldAlt,
   FaUserTie,
@@ -48,7 +43,7 @@ export default function DashboardPage() {
   const navigate = useNavigate();
 
   // State for UI elements
-  const [isSidenavOpen, setIsSidenavOpen] = useState(false);
+  const [isSidenavOpen, setIsSidenavOpen] = useState(false); 
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isNotificationsDropdownOpen, setIsNotificationsDropdownOpen] =
     useState(false);
