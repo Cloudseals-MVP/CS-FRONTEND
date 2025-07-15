@@ -334,7 +334,7 @@ export default function DashboardPage() {
   return (
     <div className="font-poppins bg-[#F0F3F9] min-h-screen">
       {/* Header */}
-      <nav className="fixed top-0 left-0 w-full h-18 flex items-center justify-between px-4 bg-white shadow-md transition-all duration-500 z-50">
+      <nav className="fixed top-0 left-0 w-full h-20 flex items-center justify-between px-6 bg-white shadow-md transition-all duration-500 z-50">
         <div className="container-fluid flex items-center justify-between w-full">
           <div className="cursor-pointer" onClick={toggleSidenav}>
             <FaBars className="text-base" />
@@ -757,9 +757,9 @@ export default function DashboardPage() {
         }`}
       >
         {/* KPI Widgets Section */}
-        <section className="mt-8 px-4">
+        <section className="mt-5 px-4">
           <div className="container-fluid">
-            <h1 className="text-lg text-[#151D48] font-semibold my-5 font-open-sans text-center lg:text-left">
+            <h1 className="text-lg text-[#151D48] font-semibold my-3 font-open-sans text-center lg:text-left">
               KPI Widgets
             </h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 items-center justify-center">
