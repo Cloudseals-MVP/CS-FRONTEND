@@ -16,11 +16,7 @@ import {
   FaCog,
   FaHeadset,
   FaSignOutAlt,
-  FaBell,
-  FaCommentAlt,
-  FaCloudUploadAlt,
-  FaMoneyBillAlt,
-  FaClipboardList,
+  FaRegCommentAlt,
   FaHeartbeat,
   FaExternalLinkAlt,
   FaDesktop,
@@ -33,9 +29,11 @@ import {
   FaFileInvoiceDollar,
   FaArrowDown,
   FaAngleLeft,
+  FaRegBell,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-
+import { TbMoneybag, TbCloudUpload } from "react-icons/tb";
+import { MdRule, MdMonitorHeart, MdSearch } from "react-icons/md";
 import logo from "../assets/logo.svg";
 import avatar from "../assets/avatar-3.jpg";
 
@@ -74,8 +72,8 @@ export default function DashboardPage() {
     counters.forEach((counter) => {
       const target = parseInt(counter.textContent.replace(/[^0-9.-]/g, ""));
       let current = 0;
-      const duration = 4000; 
-      const increment = target / (duration / 10); 
+      const duration = 4000;
+      const increment = target / (duration / 10);
 
       const updateCounter = () => {
         if (current < target) {
@@ -83,7 +81,7 @@ export default function DashboardPage() {
           counter.textContent = Math.ceil(current);
           requestAnimationFrame(updateCounter);
         } else {
-          counter.textContent = target; 
+          counter.textContent = target;
         }
       };
       updateCounter();
@@ -365,8 +363,7 @@ export default function DashboardPage() {
                     className="text-[#4097FF] w-10 h-10 rounded-full bg-transparent flex justify-center items-center transition-all duration-400 flex-shrink-0 hover:bg-white"
                     href="#"
                   >
-                    <FaBars className="text-xl" />{" "}
-                    {/* Using FaBars for search icon as fas-search is not imported */}
+                    <MdSearch className="text-2xl" />{" "}
                   </a>
                 </div>
               </li>
@@ -452,7 +449,7 @@ export default function DashboardPage() {
                       )
                     }
                   >
-                    <FaBell className="text-base text-gray-700" />
+                    <FaRegBell className="text-base text-gray-900" />
                     <span className="absolute -top-1 -right-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-500 rounded-full">
                       4<span className="sr-only">unread messages</span>
                     </span>
@@ -506,7 +503,7 @@ export default function DashboardPage() {
                   type="button"
                   className="p-0 relative border-0 cursor-pointer"
                 >
-                  <FaCommentAlt className="text-base text-gray-700" />
+                  <FaRegCommentAlt className="text-base text-gray-700" />
                   <span className="absolute -top-1 -right-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-500 rounded-full">
                     10
                     <span className="sr-only">unread messages</span>
@@ -767,11 +764,11 @@ export default function DashboardPage() {
             </h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 items-center justify-center">
               {/* Card 1: Cloud Spend */}
-              <div className="bg-white rounded-lg shadow-md p-4 pt-2">
+              <div className="bg-white rounded-lg shadow-md p-4 pt-2 min-h-[110px] flex flex-col justify-between">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
                     <span className="m-1 ps-1 text-2xl text-[#6c5ffc]">
-                      <FaCloudUploadAlt />
+                      <TbCloudUpload />
                     </span>
                     <h5 className="text-base font-medium text-[#151D48] whitespace-nowrap">
                       Cloud Spend
@@ -784,22 +781,22 @@ export default function DashboardPage() {
                     </h5>
                     <h6 className="text-base text-[#151D48]">
                       <span className="counter">-10.9 </span>
-                      <FaArrowUp className="text-gray-400 inline-block" />
+                      <FaArrowUp className="text-gray-900 inline-block mb-2" />
                     </h6>
                   </div>
                 </div>
                 <canvas
                   height="100"
-                  className="blog-overview-stats-small-1 w-full"
+                  className="blog-overview-stats-small-1 w-full mt-4"
                 ></canvas>
               </div>
 
               {/* Card 2: Cost Savings */}
-              <div className="bg-white rounded-lg shadow-md p-4 pt-2">
+              <div className="bg-white rounded-lg shadow-md p-4 pt-2 min-h-[110px] flex flex-col justify-between">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
                     <span className="m-1 ps-1 text-2xl text-[#6c5ffc]">
-                      <FaMoneyBillAlt />
+                      <TbMoneybag />
                     </span>
                     <h5 className="text-base font-medium text-[#151D48] whitespace-nowrap">
                       Cost Savings
@@ -812,138 +809,147 @@ export default function DashboardPage() {
                     </h5>
                     <h6 className="text-base text-[#151D48]">
                       <span className="counter">-10.9 </span>
-                      <FaArrowDown className="text-gray-400 inline-block" />
+                      <FaArrowDown className="text-gray-900 inline-block" />
                     </h6>
                   </div>
                 </div>
                 <canvas
                   height="100"
-                  className="blog-overview-stats-small-2 w-full"
+                  className="blog-overview-stats-small-2 w-full mt-4"
                 ></canvas>
               </div>
 
               {/* Card 3: Compliance Status */}
-              <div className="bg-white rounded-lg shadow-md p-4 pt-2">
-                <div className="flex items-center justify-between">
+              <div className="bg-white rounded-lg shadow-md p-7">
+                {/* Header */}
+                <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center">
-                    <span className="m-1 text-2xl text-[#6c5ffc]">
-                      <FaClipboardList />
+                    <span className="text-2xl text-[#6c5ffc] mr-2">
+                      <MdRule />
                     </span>
-                    <h5 className="text-base font-medium text-[#151D48] whitespace-nowrap">
+                    <h5 className="text-base font-semibold text-[#151D48]">
                       Compliance Status
                     </h5>
                   </div>
                   <div className="text-right">
-                    <h5 className="text-base font-medium text-[#151D48]">
+                    <h5 className="text-base font-semibold text-[#151D48]">
                       <span>$</span>
                       <span className="counter">101.21</span>
                     </h5>
                   </div>
                 </div>
-                <div className="px-8 py-4 w-full">
-                  <div className="w-full bg-gray-200 rounded-full h-1 mb-1">
+
+                {/* Progress Bars */}
+                <div className="px-2 py-3 space-y-2">
+                  <div className="w-full bg-gray-200 rounded-full h-2">
                     <div
-                      className="bg-blue-500 h-1 rounded-full"
+                      className="bg-blue-500 h-2 rounded-full"
                       style={{ width: "25%" }}
                     ></div>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-1.5">
+                  <div className="w-full bg-gray-200 rounded-full h-3">
                     <div
-                      className="bg-blue-500 h-1.5 rounded-full"
-                      style={{ width: "25%" }}
+                      className="bg-green-500 h-3 rounded-full"
+                      style={{ width: "50%" }}
                     ></div>
                   </div>
                 </div>
-                <div className="flex justify-between text-xs font-semibold px-2 pb-2 text-[#151D48]">
+
+                {/* Footer Dates */}
+                <div className="flex justify-between text-xs font-medium text-[#151D48] mt-3 px-2">
                   <span>
-                    Start Date: <span className="font-normal">10th JAN</span>
+                    Start: <span className="font-normal">10th JAN</span>
                   </span>
                   <span>
-                    End Date: <span className="font-normal">29th JAN</span>
+                    End: <span className="font-normal">29th JAN</span>
                   </span>
                 </div>
               </div>
 
               {/* Card 4: Agent Health */}
-              <div className="bg-white rounded-lg shadow-md p-4 pt-2">
-                <div className="flex items-center justify-between">
+              <div className="bg-white rounded-lg shadow-md p-7">
+                <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center">
-                    <span className="m-1 text-2xl text-[#6c5ffc]">
-                      <FaHeartbeat />
+                    <span className="text-2xl text-[#6c5ffc] mr-2">
+                      <MdMonitorHeart />
                     </span>
-                    <h5 className="text-base font-medium text-[#151D48] whitespace-nowrap">
+                    <h5 className="text-base font-semibold text-[#151D48]">
                       Agent Health
                     </h5>
                   </div>
                   <div className="text-right">
-                    <h5 className="text-base font-medium text-[#151D48]">
+                    <h5 className="text-base font-semibold text-[#151D48]">
                       <span>$</span>
                       <span className="counter">101.21</span>
                     </h5>
                   </div>
                 </div>
-                <div className="px-8 py-4 w-full">
-                  <div className="w-full bg-gray-200 rounded-full h-1 mb-1">
+
+                <div className="px-2 py-3 space-y-2">
+                  <div className="w-full bg-gray-200 rounded-full h-2">
                     <div
-                      className="bg-blue-500 h-1 rounded-full"
+                      className="bg-blue-500 h-2 rounded-full"
                       style={{ width: "25%" }}
                     ></div>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-1.5">
+                  <div className="w-full bg-gray-200 rounded-full h-3">
                     <div
-                      className="bg-green-500 h-1.5 rounded-full"
-                      style={{ width: "25%" }}
+                      className="bg-green-500 h-3 rounded-full"
+                      style={{ width: "50%" }}
                     ></div>
                   </div>
                 </div>
-                <div className="flex justify-between text-xs font-semibold px-2 pb-2 text-[#151D48]">
+
+                <div className="flex justify-between text-xs font-medium text-[#151D48] mt-3 px-2">
                   <span>
-                    Start Date: <span className="font-normal">10th JAN</span>
+                    Start: <span className="font-normal">10th JAN</span>
                   </span>
                   <span>
-                    End Date: <span className="font-normal">29th JAN</span>
+                    End: <span className="font-normal">29th JAN</span>
                   </span>
                 </div>
               </div>
 
               {/* Card 5: Open Incidents */}
-              <div className="bg-white rounded-lg shadow-md p-4 pt-2">
-                <div className="flex items-center justify-between">
+              <div className="bg-white rounded-lg shadow-md p-7">
+                <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center">
-                    <span className="m-1 text-2xl text-[#6c5ffc]">
+                    <span className="text-2xl text-[#6c5ffc] mr-2">
                       <FaExternalLinkAlt />
                     </span>
-                    <h5 className="text-base font-medium text-[#151D48] whitespace-nowrap">
+                    <h5 className="text-base font-semibold text-[#151D48]">
                       Open Incidents
                     </h5>
                   </div>
                   <div className="text-right">
-                    <h5 className="text-base font-medium text-[#151D48]">
+                    <h5 className="text-base font-semibold text-[#151D48]">
                       <span>$</span>
                       <span className="counter">101.21</span>
                     </h5>
                   </div>
                 </div>
-                <div className="px-8 py-4 w-full">
-                  <div className="w-full bg-gray-200 rounded-full h-1 mb-1">
+
+                <div className="px-2 py-3 space-y-2">
+                  <div className="w-full bg-gray-200 rounded-full h-2">
                     <div
-                      className="bg-blue-500 h-1 rounded-full"
+                      className="bg-blue-500 h-2 rounded-full"
                       style={{ width: "25%" }}
                     ></div>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-1.5">
+                  <div className="w-full bg-gray-200 rounded-full h-3">
                     <div
-                      className="bg-green-500 h-1.5 rounded-full"
-                      style={{ width: "25%" }}
+                      className="bg-green-500 h-3 rounded-full"
+                      style={{ width: "40%" }}
                     ></div>
                   </div>
                 </div>
-                <div className="flex justify-between text-xs font-semibold px-2 pb-2 text-[#151D48]">
+
+                <div className="flex justify-between text-xs font-medium text-[#151D48] mt-3 px-2">
                   <span>
-                    Start Date: <span className="font-normal">10th JAN</span>
+                    Start: <span className="font-normal">10th JAN</span>
                   </span>
                   <span>
-                    End Date: <span className="font-normal">29th JAN</span>
+                    End: <span className="font-normal">29th JAN</span>
                   </span>
                 </div>
               </div>
