@@ -7,9 +7,6 @@ import {
   FaDatabase,
   FaChartLine,
   FaArrowUp,
-  FaServer,
-  FaUserCheck,
-  FaExclamationCircle,
   FaBars,
   FaUser,
   FaEnvelope,
@@ -31,6 +28,11 @@ import {
   FaAngleLeft,
   FaRegBell,
 } from "react-icons/fa";
+import {
+  FaPersonCircleExclamation,
+  FaPersonCircleCheck,
+  FaServer,
+} from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { TbMoneybag, TbCloudUpload } from "react-icons/tb";
 import { MdRule, MdMonitorHeart, MdSearch } from "react-icons/md";
@@ -119,7 +121,17 @@ export default function DashboardPage() {
       chart: {
         height: 350,
         type: "radar",
-        toolbar: { show: false },
+        toolbar: { show: true },
+      },
+      title: {
+        text: "Radar with Polygon Fill",
+        align: "left",
+        style: {
+           color: "#151D48",
+          fontSize: "14px",
+          fontFamily: "Open Sans, sans-serif",
+          fontWeight: 600,
+        },
       },
       dataLabels: { enabled: true },
       plotOptions: {
@@ -178,7 +190,7 @@ export default function DashboardPage() {
         height: 350,
         type: "area",
         zoom: { enabled: false },
-        toolbar: { show: false },
+        toolbar: { show: true },
       },
       dataLabels: { enabled: false },
       title: {
@@ -212,8 +224,8 @@ export default function DashboardPage() {
         line: {
           colors: {
             threshold: 0,
-            colorAboveThreshold: "#0088ee",
-            colorBelowThreshold: "#ff0000",
+            colorAboveThreshold: "#B3E5FC",
+            colorBelowThreshold: "#B3E5FC",
           },
         },
       },
@@ -243,7 +255,7 @@ export default function DashboardPage() {
         height: 350,
         type: "rangeBar",
         zoom: { enabled: false },
-        toolbar: { show: false },
+        toolbar: { show: true },
       },
       plotOptions: {
         bar: {
@@ -284,18 +296,43 @@ export default function DashboardPage() {
     const salesOvertimeOptions = {
       series: [
         {
-          name: "Sales",
-          data: [30, 40, 45, 50, 49, 60, 70, 91, 125, 110, 130, 150],
+          name: "Revenue",
+          data: [9, 15, 6, 10, 16, 9, 13, 17, 12, 10, 14, 17], // sample data
+        },
+        {
+          name: "Order",
+          data: [5, 3, 12, 5, 9, 14, 18, 9, 3, 13, 10, 8], // sample data
         },
       ],
       chart: {
         height: 350,
-        type: "line",
-        zoom: { enabled: false },
+        type: "area",
         toolbar: { show: false },
       },
-      dataLabels: { enabled: false },
-      stroke: { curve: "smooth" },
+      colors: ["#7367F0", "#28C76F"],
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        curve: "smooth",
+        width: 2,
+      },
+      fill: {
+        type: "gradient",
+        gradient: {
+          shadeIntensity: 1,
+          opacityFrom: 0.4,
+          opacityTo: 0.05,
+          stops: [0, 95, 100],
+        },
+      },
+      legend: {
+        position: "top",
+        horizontalAlign: "right",
+        markers: {
+          radius: 12,
+        },
+      },
       xaxis: {
         categories: [
           "Jan",
@@ -311,9 +348,30 @@ export default function DashboardPage() {
           "Nov",
           "Dec",
         ],
+        labels: {
+          style: {
+            colors: "#6e6b7b",
+            fontSize: "13px",
+          },
+        },
+      },
+      yaxis: {
+        labels: {
+          formatter: (val) => `$${val}K`,
+          style: {
+            colors: "#6e6b7b",
+            fontSize: "13px",
+          },
+        },
       },
       tooltip: {
-        x: { format: "dd/MM/yy HH:mm" },
+        y: {
+          formatter: (val) => `$${val}K`,
+        },
+      },
+      grid: {
+        borderColor: "#e7e7e7",
+        strokeDashArray: 4,
       },
     };
     const salesOvertimeChart = new ApexCharts(
@@ -764,192 +822,165 @@ export default function DashboardPage() {
             </h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 items-center justify-center">
               {/* Card 1: Cloud Spend */}
-              <div className="bg-white rounded-lg shadow-md p-4 pt-2 min-h-[110px] flex flex-col justify-between">
+              <div className="bg-white rounded-lg shadow-md p-4 min-h-[110px] flex flex-col justify-between">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <span className="m-1 ps-1 text-2xl text-[#6c5ffc]">
-                      <TbCloudUpload />
-                    </span>
-                    <h5 className="text-base font-medium text-[#151D48] whitespace-nowrap">
+                  <div className="flex items-center gap-2">
+                    <TbCloudUpload className="text-[#6c5ffc] text-xl" />
+                    <h5 className="text-base font-medium text-[#151D48]">
                       Cloud Spend
                     </h5>
                   </div>
                   <div className="text-right">
-                    <h5 className="text-base font-medium text-[#151D48]">
-                      <span>$</span>
-                      <span className="counter">101.21</span>
-                    </h5>
-                    <h6 className="text-base text-[#151D48]">
-                      <span className="counter">-10.9 </span>
-                      <FaArrowUp className="text-gray-900 inline-block mb-2" />
-                    </h6>
+                    <p className="text-base font-semibold text-black">$102</p>
+                    <p className="text-sm text-black -mt-1">
+                      -10 <FaArrowUp className="inline-block" />
+                    </p>
                   </div>
                 </div>
-                <canvas
-                  height="100"
-                  className="blog-overview-stats-small-1 w-full mt-4"
-                ></canvas>
+                <svg
+                  viewBox="0 0 100 40"
+                  preserveAspectRatio="none"
+                  className="w-full h-12 mt-2"
+                >
+                  <defs>
+                    <linearGradient
+                      id="cloudGradient"
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="1"
+                    >
+                      <stop offset="0%" stopColor="#00CFE8" stopOpacity="0.4" />
+                      <stop offset="100%" stopColor="#00CFE8" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    d="M0 35 C 20 25, 40 30, 60 20 C 80 10, 100 30, 100 30 L100 40 L0 40 Z"
+                    fill="url(#cloudGradient)"
+                  />
+                  <path
+                    d="M0 35 C 20 25, 40 30, 60 20 C 80 10, 100 30, 100 30"
+                    fill="none"
+                    stroke="#00CFE8"
+                    strokeWidth="1.5"
+                  />
+                </svg>
               </div>
 
-              {/* Card 2: Cost Savings */}
-              <div className="bg-white rounded-lg shadow-md p-4 pt-2 min-h-[110px] flex flex-col justify-between">
+              {/* Cost Savings Card */}
+              <div className="bg-white rounded-lg shadow-md p-4 min-h-[130px] flex flex-col justify-between">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <span className="m-1 ps-1 text-2xl text-[#6c5ffc]">
-                      <TbMoneybag />
-                    </span>
-                    <h5 className="text-base font-medium text-[#151D48] whitespace-nowrap">
+                  <div className="flex items-center gap-2">
+                    <TbMoneybag className="text-[#6c5ffc] text-xl" />
+                    <h5 className="text-base font-medium text-[#151D48]">
                       Cost Savings
                     </h5>
                   </div>
                   <div className="text-right">
-                    <h5 className="text-base font-medium text-[#151D48]">
-                      <span>$</span>
-                      <span className="counter">101.21</span>
-                    </h5>
-                    <h6 className="text-base text-[#151D48]">
-                      <span className="counter">-10.9 </span>
-                      <FaArrowDown className="text-gray-900 inline-block" />
-                    </h6>
+                    <p className="text-base font-semibold text-black">$102</p>
+                    <p className="text-sm text-black -mt-1">
+                      -10 <FaArrowDown className="inline-block" />
+                    </p>
                   </div>
                 </div>
-                <canvas
-                  height="100"
-                  className="blog-overview-stats-small-2 w-full mt-4"
-                ></canvas>
+                <svg
+                  viewBox="0 0 100 40"
+                  preserveAspectRatio="none"
+                  className="w-full h-12 mt-2"
+                >
+                  <defs>
+                    <linearGradient
+                      id="savingsGradient"
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="1"
+                    >
+                      <stop offset="0%" stopColor="#28C76F" stopOpacity="0.4" />
+                      <stop offset="100%" stopColor="#28C76F" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    d="M0 30 C 20 20, 40 25, 60 25 C 80 25, 100 20, 100 20 L100 40 L0 40 Z"
+                    fill="url(#savingsGradient)"
+                  />
+                  <path
+                    d="M0 30 C 20 20, 40 25, 60 25 C 80 25, 100 20, 100 20"
+                    fill="none"
+                    stroke="#28C76F"
+                    strokeWidth="1.5"
+                  />
+                </svg>
               </div>
 
               {/* Card 3: Compliance Status */}
-              <div className="bg-white rounded-lg shadow-md p-7">
-                {/* Header */}
+              <div className="bg-white rounded-lg shadow-md p-4 min-h-[130px] flex flex-col justify-between">
                 <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center">
-                    <span className="text-2xl text-[#6c5ffc] mr-2">
-                      <MdRule />
-                    </span>
-                    <h5 className="text-base font-semibold text-[#151D48]">
+                  <div className="flex items-center gap-2">
+                    <MdRule className="text-[#6c5ffc] text-xl" />
+                    <h5 className="text-base font-medium text-[#151D48]">
                       Compliance Status
                     </h5>
                   </div>
-                  <div className="text-right">
-                    <h5 className="text-base font-semibold text-[#151D48]">
-                      <span>$</span>
-                      <span className="counter">101.21</span>
-                    </h5>
-                  </div>
+                  <p className="text-base font-semibold text-black">$101.21</p>
                 </div>
-
-                {/* Progress Bars */}
-                <div className="px-2 py-3 space-y-2">
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div
-                      className="bg-blue-500 h-2 rounded-full"
-                      style={{ width: "25%" }}
-                    ></div>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-3">
-                    <div
-                      className="bg-green-500 h-3 rounded-full"
-                      style={{ width: "50%" }}
-                    ></div>
-                  </div>
+                <div className="w-full bg-gray-200 h-1.5 rounded-full overflow-hidden">
+                  <div className="bg-blue-500 h-full w-[25%]"></div>
                 </div>
-
-                {/* Footer Dates */}
-                <div className="flex justify-between text-xs font-medium text-[#151D48] mt-3 px-2">
+                <div className="flex justify-between text-xs text-[#151D48] mt-2 px-1">
                   <span>
-                    Start: <span className="font-normal">10th JAN</span>
+                    Start Date: <strong>10th JAN</strong>
                   </span>
                   <span>
-                    End: <span className="font-normal">29th JAN</span>
+                    End Date: <strong>29th JAN</strong>
                   </span>
                 </div>
               </div>
 
               {/* Card 4: Agent Health */}
-              <div className="bg-white rounded-lg shadow-md p-7">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center">
-                    <span className="text-2xl text-[#6c5ffc] mr-2">
-                      <MdMonitorHeart />
-                    </span>
-                    <h5 className="text-base font-semibold text-[#151D48]">
+              <div className="bg-white rounded-lg shadow-md p-4 min-h-[130px] flex flex-col justify-between">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <MdMonitorHeart className="text-[#6c5ffc] text-xl" />
+                    <h5 className="text-base font-medium text-[#151D48]">
                       Agent Health
                     </h5>
                   </div>
-                  <div className="text-right">
-                    <h5 className="text-base font-semibold text-[#151D48]">
-                      <span>$</span>
-                      <span className="counter">101.21</span>
-                    </h5>
-                  </div>
+                  <p className="text-base font-semibold text-black">$102</p>
                 </div>
-
-                <div className="px-2 py-3 space-y-2">
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div
-                      className="bg-blue-500 h-2 rounded-full"
-                      style={{ width: "25%" }}
-                    ></div>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-3">
-                    <div
-                      className="bg-green-500 h-3 rounded-full"
-                      style={{ width: "50%" }}
-                    ></div>
-                  </div>
+                <div className="w-full bg-gray-200 h-1.5 rounded-full overflow-hidden">
+                  <div className="bg-green-500 h-full w-[40%]"></div>
                 </div>
-
-                <div className="flex justify-between text-xs font-medium text-[#151D48] mt-3 px-2">
+                <div className="flex justify-between text-xs text-[#151D48] mt-2 px-1">
                   <span>
-                    Start: <span className="font-normal">10th JAN</span>
+                    Start Date: <strong>10th JAN</strong>
                   </span>
                   <span>
-                    End: <span className="font-normal">29th JAN</span>
+                    End Date: <strong>29th JAN</strong>
                   </span>
                 </div>
               </div>
 
               {/* Card 5: Open Incidents */}
-              <div className="bg-white rounded-lg shadow-md p-7">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center">
-                    <span className="text-2xl text-[#6c5ffc] mr-2">
-                      <FaExternalLinkAlt />
-                    </span>
-                    <h5 className="text-base font-semibold text-[#151D48]">
+              <div className="bg-white rounded-lg shadow-md p-4 min-h-[130px] flex flex-col justify-between">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <FaExternalLinkAlt className="text-[#6c5ffc] text-xl" />
+                    <h5 className="text-base font-medium text-[#151D48]">
                       Open Incidents
                     </h5>
                   </div>
-                  <div className="text-right">
-                    <h5 className="text-base font-semibold text-[#151D48]">
-                      <span>$</span>
-                      <span className="counter">101.21</span>
-                    </h5>
-                  </div>
+                  <p className="text-base font-semibold text-black">$102</p>
                 </div>
-
-                <div className="px-2 py-3 space-y-2">
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div
-                      className="bg-blue-500 h-2 rounded-full"
-                      style={{ width: "25%" }}
-                    ></div>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-3">
-                    <div
-                      className="bg-green-500 h-3 rounded-full"
-                      style={{ width: "40%" }}
-                    ></div>
-                  </div>
+                <div className="w-full bg-gray-200 h-1.5 rounded-full overflow-hidden">
+                  <div className="bg-green-500 h-full w-[30%]"></div>
                 </div>
-
-                <div className="flex justify-between text-xs font-medium text-[#151D48] mt-3 px-2">
+                <div className="flex justify-between text-xs text-[#151D48] mt-2 px-1">
                   <span>
-                    Start: <span className="font-normal">10th JAN</span>
+                    Start Date: <strong>10th JAN</strong>
                   </span>
                   <span>
-                    End: <span className="font-normal">29th JAN</span>
+                    End Date: <strong>29th JAN</strong>
                   </span>
                 </div>
               </div>
@@ -963,10 +994,10 @@ export default function DashboardPage() {
             <div className="grid grid-cols-1 lg:grid-cols-[3fr_1fr] gap-5">
               {/* Usage Graph */}
               <div className="bg-white rounded-lg shadow-md p-4 pt-2">
-                <h2 className="text-base text-[#151D48] font-semibold font-open-sans">
+                <h2 className="text-base text-[#151D48] font-semibold font-open-sans mt-5 mb-2">
                   Usage Graph
                 </h2>
-                <hr className="my-2 border-gray-200" />
+                <hr className="my-2 border-gray-400" />
                 <div
                   id="sales-overtime"
                   ref={salesOvertimeChartRef}
@@ -975,25 +1006,25 @@ export default function DashboardPage() {
               </div>
               {/* Recent Activity Feed */}
               <div className="bg-white rounded-lg shadow-md p-4 pt-2">
-                <h2 className="text-base text-[#151D48] font-semibold font-open-sans">
+                <h2 className="text-base text-[#151D48] font-semibold font-open-sans mt-5 mb-2">
                   Recent Activity Feed
                 </h2>
-                <hr className="my-2 border-gray-200" />
+                <hr className="my-2 border-gray-400" />
                 <ul className="list-none p-0">
-                  <li className="flex items-center py-2 border-b border-[#cdd6dd]">
+                  <li className="flex items-center py-5 border-b border-[#cdd6dd]">
                     <FaServer className="mr-3 text-base text-[#6c5ffc]" />
                     <span className="text-base text-[#151D48]">
                       Agent deployed on server X
                     </span>
                   </li>
-                  <li className="flex items-center py-2 border-b border-[#cdd6dd]">
-                    <FaUserCheck className="mr-3 text-base text-[#6c5ffc]" />
+                  <li className="flex items-center py-5 border-b border-[#cdd6dd]">
+                    <FaPersonCircleCheck className="mr-3 text-base text-[#6c5ffc]" />
                     <span className="text-base text-[#151D48]">
                       User John approved resource change
                     </span>
                   </li>
-                  <li className="flex items-center py-2">
-                    <FaExclamationCircle className="mr-3 text-base text-[#6c5ffc]" />
+                  <li className="flex items-center py-5">
+                    <FaPersonCircleExclamation className="mr-3 text-base text-[#6c5ffc]" />
                     <span className="text-base text-[#151D48]">
                       Alert triggered: High CPU Usage
                     </span>
@@ -1013,10 +1044,10 @@ export default function DashboardPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {/* Resource Usage Pie Chart */}
               <div className="bg-white rounded-lg shadow-md p-4 pt-2">
-                <h2 className="text-base text-[#151D48] font-semibold font-open-sans">
+                <h2 className="text-base text-[#151D48] font-semibold font-open-sans mt-5 mb-2">
                   Resource Usage Pie Chart
                 </h2>
-                <hr className="my-2 border-gray-200" />
+                <hr className="my-2 border-gray-400" />
                 <div
                   id="pie-chart"
                   ref={pieChartRef}
@@ -1025,10 +1056,10 @@ export default function DashboardPage() {
               </div>
               {/* Cost Trend Line */}
               <div className="bg-white rounded-lg shadow-md p-4 pt-2">
-                <h2 className="text-base text-[#151D48] font-semibold font-open-sans">
+                <h2 className="text-base text-[#151D48] font-semibold font-open-sans  mt-5 mb-2">
                   Cost Trend Line
                 </h2>
-                <hr className="my-2 border-gray-200" />
+                <hr className="my-2 border-gray-400" />
                 <div
                   id="cost-trend-chart"
                   ref={costTrendChartRef}
@@ -1037,10 +1068,10 @@ export default function DashboardPage() {
               </div>
               {/* Compliance Heatmap */}
               <div className="bg-white rounded-lg shadow-md p-4 pt-2">
-                <h2 className="text-base text-[#151D48] font-semibold font-open-sans">
+                <h2 className="text-base text-[#151D48] font-semibold font-open-sans  mt-5 mb-2">
                   Compliance Heatmap
                 </h2>
-                <hr className="my-2 border-gray-200" />
+                <hr className="my-2 border-gray-400" />
                 <div
                   id="Compliance-Heatmap-chart"
                   ref={complianceHeatmapChartRef}
@@ -1049,22 +1080,22 @@ export default function DashboardPage() {
               </div>
               {/* Quick Actions */}
               <div className="bg-white rounded-lg shadow-md p-4 pt-2">
-                <h2 className="text-base text-[#151D48] font-semibold font-open-sans">
+                <h2 className="text-base text-[#151D48] font-semibold font-open-sans mt-5 mb-2">
                   Quick Actions
                 </h2>
-                <hr className="my-2 border-gray-200" />
+                <hr className="my-2 border-gray-400" />
                 <ul className="list-none p-0">
-                  <li className="py-2 border-b border-[#cdd6dd]">
+                  <li className="py-5 border-b border-[#cdd6dd]">
                     <span className="text-base text-[#151D48]">
                       Agent deployed on server X
                     </span>
                   </li>
-                  <li className="py-2 border-b border-[#cdd6dd]">
+                  <li className="py-5 border-b border-[#cdd6dd]">
                     <span className="text-base text-[#151D48]">
                       User John approved resource change
                     </span>
                   </li>
-                  <li className="py-2">
+                  <li className="py-5">
                     <span className="text-base text-[#151D48]">
                       Alert triggered: High CPU Usage
                     </span>
