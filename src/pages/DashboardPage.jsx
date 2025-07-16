@@ -16,8 +16,6 @@ import {
   FaRegCommentAlt,
   FaHeartbeat,
   FaExternalLinkAlt,
-  FaDesktop,
-  FaHdd,
   FaNetworkWired,
   FaProjectDiagram,
   FaChartArea,
@@ -32,6 +30,8 @@ import {
   FaPersonCircleExclamation,
   FaPersonCircleCheck,
   FaServer,
+  FaRegHardDrive,
+  FaComputer,
 } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { TbMoneybag, TbCloudUpload } from "react-icons/tb";
@@ -127,7 +127,7 @@ export default function DashboardPage() {
         text: "Radar with Polygon Fill",
         align: "left",
         style: {
-           color: "#151D48",
+          color: "#151D48",
           fontSize: "14px",
           fontFamily: "Open Sans, sans-serif",
           fontWeight: 600,
@@ -575,7 +575,7 @@ export default function DashboardPage() {
 
       {/* Sidenav */}
       <section
-        className={`fixed top-0 left-0 h-full bg-[#000030] overflow-x-hidden transition-all duration-500 z-[9999] pt-16 ${
+        className={`fixed top-0 left-0 h-full bg-[#000030] overflow-y-auto transition-all duration-500 z-[9999] pt-16 pb-20 ${
           isSidenavOpen ? "w-72" : "w-0"
         }`}
       >
@@ -605,13 +605,17 @@ export default function DashboardPage() {
               />
             </a>
             {activeSidebarMenu.cloudResources && (
-              <ul className="list-none p-0 m-0 pl-1 bg-[#1e2145]">
+              <ul
+                className={`list-none p-0 m-0 pl-1 bg-[#1e2145] transition-all duration-300 ease-in-out overflow-hidden ${
+                  activeSidebarMenu.cloudResources ? "max-h-96" : "max-h-0"
+                }`}
+              >
                 <li>
                   <a
                     href="#"
                     className="flex items-center py-1.5 px-4 text-sm text-[#8aa4af] bg-[#1e2145] hover:text-white transition-colors duration-200"
                   >
-                    <FaDesktop className="w-8 text-base" />
+                    <FaComputer className="w-8 text-base" />
                     Compute
                   </a>
                 </li>
@@ -620,7 +624,7 @@ export default function DashboardPage() {
                     href="#"
                     className="flex items-center py-1.5 px-4 text-sm text-[#8aa4af] bg-[#1e2145] hover:text-white transition-colors duration-200"
                   >
-                    <FaHdd className="w-8 text-base" />
+                    <FaRegHardDrive className="w-8 text-base" />
                     Storage
                   </a>
                 </li>
@@ -662,11 +666,6 @@ export default function DashboardPage() {
             >
               <FaProjectDiagram className="w-8 text-base" />
               <span>Workflows / Automations</span>
-              <FaAngleLeft
-                className={`ml-auto text-sm transition-transform duration-300 ${
-                  activeSidebarMenu.workflows ? "-rotate-90" : ""
-                }`}
-              />
             </a>
             {/* Submenu for Workflows if needed */}
           </li>
@@ -678,11 +677,6 @@ export default function DashboardPage() {
             >
               <FaChartLine className="w-8 text-base" />
               <span>Cost Optimization</span>
-              <FaAngleLeft
-                className={`ml-auto text-sm transition-transform duration-300 ${
-                  activeSidebarMenu.costOptimization ? "-rotate-90" : ""
-                }`}
-              />
             </a>
             {/* Submenu for Cost Optimization if needed */}
           </li>
@@ -694,11 +688,6 @@ export default function DashboardPage() {
             >
               <FaShieldAlt className="w-8 text-base" />
               <span>Compliance & Security</span>
-              <FaAngleLeft
-                className={`ml-auto text-sm transition-transform duration-300 ${
-                  activeSidebarMenu.complianceSecurity ? "-rotate-90" : ""
-                }`}
-              />
             </a>
             {/* Submenu for Compliance & Security if needed */}
           </li>
@@ -710,11 +699,6 @@ export default function DashboardPage() {
             >
               <FaChartArea className="w-8 text-base" />
               <span>Bias / Fairness Analytics</span>
-              <FaAngleLeft
-                className={`ml-auto text-sm transition-transform duration-300 ${
-                  activeSidebarMenu.biasFairness ? "-rotate-90" : ""
-                }`}
-              />
             </a>
             {/* Submenu for Bias / Fairness Analytics if needed */}
           </li>
@@ -743,11 +727,6 @@ export default function DashboardPage() {
               onClick={() => toggleTreeview("settings")}
             >
               <FaCog className="w-8 text-base" /> <span>Settings</span>
-              <FaAngleLeft
-                className={`ml-auto text-sm transition-transform duration-300 ${
-                  activeSidebarMenu.settings ? "-rotate-90" : ""
-                }`}
-              />
             </a>
             {/* Submenu for Settings if needed */}
           </li>
@@ -769,7 +748,11 @@ export default function DashboardPage() {
               />
             </a>
             {activeSidebarMenu.admin && (
-              <ul className="list-none p-0 m-0 pl-1 bg-[#1e2145]">
+              <ul
+                className={`list-none p-0 m-0 pl-1 bg-[#1e2145] transition-all duration-300 ease-in-out overflow-hidden ${
+                  activeSidebarMenu.admin ? "max-h-96" : "max-h-0"
+                }`}
+              >
                 <li>
                   <a
                     href="#"
@@ -800,12 +783,16 @@ export default function DashboardPage() {
               </ul>
             )}
           </li>
+          <li className="mt-5 px-4">
+            <a
+              href="#"
+              className="flex items-center py-2 text-white hover:bg-[#013357] rounded transition-colors duration-200"
+            >
+              <FaSignOutAlt className="w-8 text-base" />
+              <span>Logout</span>
+            </a>
+          </li>
         </ul>
-        <div className="absolute bottom-5 left-0 right-0 text-center">
-          <a href="#" className="text-white">
-            <FaSignOutAlt className="text-lg inline-block" />
-          </a>
-        </div>
       </section>
 
       {/* Main Content Area */}
