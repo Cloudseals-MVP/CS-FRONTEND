@@ -38,6 +38,7 @@ import { TbMoneybag, TbCloudUpload } from "react-icons/tb";
 import { MdRule, MdMonitorHeart, MdSearch } from "react-icons/md";
 import logo from "../assets/logo.svg";
 import avatar from "../assets/avatar-3.jpg";
+import { Link } from "react-router-dom";
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -650,14 +651,15 @@ export default function DashboardPage() {
             )}
           </li>
           <li>
-            <a
-              href="#"
+            <Link
+              to="/ai-agents"
               className="flex items-center py-3 px-4 border-l-3 border-transparent text-[#b8c7ce] text-sm hover:text-white hover:bg-[#013357] hover:border-[#6c5ffc] transition-colors duration-200"
             >
               <FaUsers className="w-8 text-base" />
               <span>Ai Agents</span>
-            </a>
+            </Link>
           </li>
+
           <li className="treeview">
             <a
               href="#"
