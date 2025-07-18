@@ -37,6 +37,11 @@ export default function AiAgents() {
   const [isSidenavOpen, setIsSidenavOpen] = useState(false);
   const navigate = useNavigate();
   const [activeSidebarMenu, setActiveSidebarMenu] = useState({});
+  const [selectedAgent, setSelectedAgent] = useState(null);
+
+  const handleOpenModal = (agent) => {
+    setSelectedAgent(agent);
+  };
 
   // Dummy data for AI Agents table
   const [aiAgentsData, setAiAgentsData] = useState([
@@ -581,7 +586,7 @@ export default function AiAgents() {
         {/* AI Agents Table */}
         <div className="overflow-x-auto rounded-lg shadow border border-gray-200">
           <table className="w-full text-sm text-left text-gray-700 border-collapse">
-            <thead className="text-xs text-white uppercase bg-[#000030]">
+            <thead className="text-xs text-white bg-[#000030]">
               <tr>
                 <th
                   scope="col"
@@ -615,17 +620,20 @@ export default function AiAgents() {
                     </td>
                     <td className="px-6 py-3 border-r border-gray-300">
                       <span
-                        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                        className={`px-3 py-1 rounded-md text-xs cursor-pointer font-semibold ${
                           agent.status === "Running"
-                            ? "bg-red-500 text-white"
-                            : "bg-yellow-400 text-gray-800"
+                            ? "bg-violet-500 text-white"
+                            : "bg-yellow-400 text-black"
                         }`}
                       >
                         {agent.status}
                       </span>
                     </td>
                     <td className="px-6 py-3">
-                      <button className="font-medium text-blue-600 hover:underline">
+                      <button
+                        onClick={() => handleOpenModal(agent)}
+                        className="bg-indigo-500 text-white px-4 py-1.5 rounded-md text-xs font-semibold hover:bg-indigo-600 transition-colors"
+                      >
                         View Details
                       </button>
                     </td>
@@ -646,56 +654,133 @@ export default function AiAgents() {
         </div>
 
         {/* Pagination */}
-        <nav
-          className="flex flex-col md:flex-row justify-between items-center pt-4"
-          aria-label="Table navigation"
-        >
+        <nav className="flex flex-col md:flex-row justify-between items-center pt-4">
           <span className="text-sm font-normal text-gray-700 mb-4 md:mb-0">
             Showing{" "}
-            <span className="text-gray-700">
+            <span className="font-semibold text-gray-900">
               {indexOfFirstAgent + 1} to{" "}
               {Math.min(indexOfLastAgent, filteredAgents.length)}
             </span>{" "}
-            of <span className="text-gray-700">{filteredAgents.length}</span>{" "}
+            of{" "}
+            <span className="font-semibold text-gray-900">
+              {filteredAgents.length}
+            </span>{" "}
             entries
           </span>
-          <ul className="inline-flex items-center -space-x-px">
+
+          <ul className="inline-flex items-center space-x-1 bg-[#f5f8fc] px-2 py-1 rounded-lg shadow-sm">
+            {/* First Page */}
+            <li>
+              <button
+                onClick={() => paginate(1)}
+                disabled={currentPage === 1}
+                className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium ${
+                  currentPage === 1
+                    ? "text-gray-400 bg-gray-100 cursor-not-allowed"
+                    : "text-blue-600 bg-white hover:bg-blue-50"
+                }`}
+              >
+                «
+              </button>
+            </li>
+
+            {/* Previous */}
             <li>
               <button
                 onClick={() => paginate(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium ${
+                  currentPage === 1
+                    ? "text-gray-400 bg-gray-100 cursor-not-allowed"
+                    : "text-blue-600 bg-white hover:bg-blue-50"
+                }`}
               >
-                <span className="sr-only">Previous</span>
-                <FaAngleLeft className="w-2.5 h-2.5" />
+                ‹
               </button>
             </li>
+
+            {/* Page Numbers */}
             {Array.from({ length: totalPages }, (_, i) => (
               <li key={i}>
                 <button
                   onClick={() => paginate(i + 1)}
-                  className={`flex items-center justify-center px-3 h-8 leading-tight border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${
+                  className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium transition-colors ${
                     currentPage === i + 1
-                      ? "text-blue-600 bg-blue-50"
-                      : "text-gray-500 bg-white"
+                      ? "bg-[#001e3c] text-white"
+                      : "text-blue-600 bg-white hover:bg-blue-50"
                   }`}
                 >
                   {i + 1}
                 </button>
               </li>
             ))}
+
+            {/* Next */}
             <li>
               <button
                 onClick={() => paginate(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium ${
+                  currentPage === totalPages
+                    ? "text-gray-400 bg-gray-100 cursor-not-allowed"
+                    : "text-blue-600 bg-white hover:bg-blue-50"
+                }`}
               >
-                <span className="sr-only">Next</span>
-                <FaAngleLeft className="w-2.5 h-2.5 rotate-180" />
+                ›
+              </button>
+            </li>
+
+            {/* Last Page */}
+            <li>
+              <button
+                onClick={() => paginate(totalPages)}
+                disabled={currentPage === totalPages}
+                className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium ${
+                  currentPage === totalPages
+                    ? "text-gray-400 bg-gray-100 cursor-not-allowed"
+                    : "text-blue-600 bg-white hover:bg-blue-50"
+                }`}
+              >
+                »
               </button>
             </li>
           </ul>
         </nav>
+
+        {selectedAgent && (
+          <div className="fixed inset-0 z-50 flex items-start justify-center bg-black bg-opacity-40 pt-24">
+            <div className="bg-white rounded-md shadow-lg w-full max-w-md mx-auto">
+              <div className="flex justify-between items-center p-4 border-b">
+                <h2 className="text-lg font-semibold">AI Agents Details</h2>
+                <button
+                  onClick={() => setSelectedAgent(null)}
+                  className="text-gray-500 hover:text-gray-800 text-xl"
+                >
+                  ✕
+                </button>
+              </div>
+              <div className="p-4 text-sm text-gray-700 space-y-2">
+                <p>
+                  <strong>Name:</strong> {selectedAgent.name}
+                </p>
+                <p>
+                  <strong>Status:</strong> {selectedAgent.status}
+                </p>
+                <p>
+                  <strong>Deployed At:</strong> {selectedAgent.deployedAt}
+                </p>
+              </div>
+              <div className="flex justify-end p-3 border-t">
+                <button
+                  onClick={() => setSelectedAgent(null)}
+                  className="bg-blue-600 text-white px-4 py-1.5 rounded-md text-sm hover:bg-blue-700"
+                >
+                  OK
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
